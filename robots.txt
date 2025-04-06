@@ -1,13 +1,2 @@
 User-agent: *
-Disallow: /
-
-User-agent: Googlebot
-Allow: /
-Allow: /about.html
-Allow: /services.html
-Allow: /experience.html
-Allow: /journal.html
-Allow: /contact.html
-Allow: /sitemap.xml
-
-Sitemap: https://rajamashoodelahi.online/sitemap.xml
+Disallow:
