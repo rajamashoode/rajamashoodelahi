@@ -5,7 +5,7 @@
     --primary-color: #007bff; /* Professional Blue - Change as desired */
     --secondary-color: #6c757d; /* Muted Grey */
     --background-color: #f8f9fa; /* Light Grey Background */
-    --text-color: #343a40;      /* Dark Grey Text */
+    --text-color: #343a40;       /* Dark Grey Text */
     --light-text-color: #ffffff;
     --card-bg: #ffffff;
     --border-color: #dee2e6;
@@ -32,6 +32,12 @@ body {
     color: var(--text-color);
     overflow-x: hidden; /* Prevent horizontal scroll */
 }
+
+/* Prevent background scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+
 
 .container {
     max-width: 1100px;
@@ -718,16 +724,204 @@ p {
     transform: translateX(4px);
 }
 
+/* --- Campaigns Page Styles --- */ /* NEW SECTION */
+
+.campaign-grid {
+    display: grid;
+    /* Use similar grid setup as services or journal */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.campaign-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer; /* Indicate it's clickable */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.campaign-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.campaign-card img.campaign-preview-img {
+    width: 100%;
+    height: 200px; /* Consistent image height */
+    object-fit: cover;
+    display: block;
+}
+
+.campaign-card .campaign-content {
+    padding: 25px 30px;
+    flex-grow: 1;
+}
+
+.campaign-card .campaign-title {
+    font-size: 1.3rem; /* Slightly smaller than journal post */
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.campaign-card .campaign-excerpt {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* --- Modal Styles --- */ /* NEW SECTION */
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1050; /* Sit on top - higher than header */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed within modal */
+    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+    /* Add fade-in animation */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal.show {
+    display: block;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    margin: 5% auto; /* 5% from top, centered */
+    padding: 30px 40px; /* More padding */
+    border: 1px solid var(--border-color);
+    width: 85%;
+    max-width: 800px; /* Max width */
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    /* Add slide-down animation */
+    transform: translateY(-30px);
+    transition: transform 0.3s ease-in-out;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+}
+
+
+.modal-close-button {
+    color: #aaa;
+    position: absolute;
+    top: 15px; /* Adjust position */
+    right: 25px; /* Adjust position */
+    font-size: 2rem; /* Larger close icon */
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.modal-close-button:hover,
+.modal-close-button:focus {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.modal-content h2 {
+    font-size: 2rem; /* Modal title size */
+    margin-bottom: 25px;
+    color: var(--primary-color);
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.modal-screenshots {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns for screenshots */
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.modal-screenshots div h4 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.modal-screenshots img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
 /* --- Adjustments for Responsiveness --- */
 @media (max-width: 768px) {
+    /* ... existing tablet styles ... */
+
     .journal-grid {
         grid-template-columns: 1fr;
         gap: 30px;
     }
+
+    /* NEW: Campaign Grid on Tablet */
+    .campaign-grid {
+        grid-template-columns: 1fr; /* Stack cards */
+        gap: 30px;
+    }
+
+    /* NEW: Modal on Tablet */
+    .modal-content {
+        width: 90%;
+        padding: 25px 30px;
+        margin: 10% auto; /* Adjust margin */
+    }
+    .modal-screenshots {
+        grid-template-columns: 1fr; /* Stack screenshots */
+        gap: 25px;
+    }
+    .modal-content h2 { font-size: 1.8rem; }
+
 }
 
 @media (max-width: 500px) {
+    /* ... existing mobile styles ... */
+
     .post-title { font-size: 1.25rem; }
     .post-content { padding: 20px 25px; }
     .post-excerpt { font-size: 0.9rem; }
+
+    /* NEW: Campaign Card on Mobile */
+    .campaign-card .campaign-title { font-size: 1.2rem; }
+    .campaign-card .campaign-content { padding: 20px 25px; }
+    .campaign-card .campaign-excerpt { font-size: 0.9rem; }
+
+    /* NEW: Modal on Mobile */
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+        margin: 15% auto; /* Adjust margin */
+    }
+     .modal-close-button {
+        top: 10px;
+        right: 15px;
+        font-size: 1.8rem;
+    }
+    .modal-content h2 { font-size: 1.6rem; margin-bottom: 20px;}
+    .modal-content p { font-size: 0.95rem; }
+    .modal-screenshots div h4 { font-size: 1rem; margin-bottom: 10px; }
 }
